@@ -13,7 +13,7 @@ import { IJob } from "../types/Job";
 
 const JobDetails: React.FC = () => {
   const { jobId } = useParams<{ jobId: string }>();
-  const [job, setJob] = useState<IJob | null>(null); // Use IJob interface
+  const [job, setJob] = useState<IJob | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -53,25 +53,22 @@ const JobDetails: React.FC = () => {
     applicantName: string
   ) => {
     try {
-      // Fetch the resume PDF from the server
       const response = await axiosInstance.get(
         `/applications/${applicationId}/resume`,
         {
-          responseType: "arraybuffer", // Important to fetch binary data
+          responseType: "arraybuffer",
         }
       );
 
-      // Create a Blob from the response data and trigger a download
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `resume_${applicantName}.pdf`; // Suggested file name
+      link.download = `resume_${applicantName}.pdf`;
       document.body.appendChild(link);
       link.click();
       link.remove();
 
-      // Release the object URL after the download
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading the resume", error);

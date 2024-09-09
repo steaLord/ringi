@@ -9,8 +9,8 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); // Call the logout function to remove the token
-    navigate("/login"); // Redirect the user to the login page
+    logout();
+    navigate("/login");
   };
 
   return (

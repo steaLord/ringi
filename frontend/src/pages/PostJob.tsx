@@ -25,7 +25,6 @@ const PostJob: React.FC = () => {
     setError("");
     setSuccess("");
 
-    // Ensure salaries are numbers
     if (isNaN(Number(salaryMin)) || isNaN(Number(salaryMax))) {
       setError("Please enter valid numbers for salary.");
       return;
@@ -44,7 +43,7 @@ const PostJob: React.FC = () => {
       await axiosInstance.post("/jobs", jobData);
 
       setSuccess("Job posted successfully!");
-      navigate("/jobs"); // Redirect to the jobs listing after successful submission
+      navigate("/jobs");
     } catch (error: any) {
       setError(error.response?.data?.message || "Failed to post job.");
     }

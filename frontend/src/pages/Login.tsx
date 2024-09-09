@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../api/API";
 
 const Login: React.FC = () => {
+  console.log(process.env.REACT_APP_BACKEND_API_URL);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,10 +20,8 @@ const Login: React.FC = () => {
         password,
       });
 
-      // Call login to set token and handle authentication state
       login(response.data.token);
 
-      // Redirect to the jobs page
       navigate("/jobs");
     } catch (error: any) {
       console.error("Error logging in:", error);

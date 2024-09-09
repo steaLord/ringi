@@ -25,10 +25,10 @@ export const authMiddleware = (
     }
 
     const decoded = jwt.verify(token, secret) as JwtPayload;
-    (req as any).user = decoded.user; // Optionally, you can define a custom type for `req.user` to avoid `any`.
+    (req as any).user = decoded.user;
     next();
   } catch (err: any) {
-    console.error(err.message); // Log the error for debugging purposes
+    console.error(err.message);
     return res.status(401).json({ message: "Token is not valid" });
   }
 };

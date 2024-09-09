@@ -1,5 +1,5 @@
 import express from "express";
-import { AppDataSource } from "../lib/data-source"; // Replace with your actual DataSource instance
+import { AppDataSource } from "../lib/data-source";
 import { Application } from "../entity/Application";
 import { Job } from "../entity/Job";
 import { authMiddleware } from "../middleware/auth";
@@ -36,7 +36,9 @@ router.post("/:jobId", upload.single("resume"), async (req, res) => {
     });
 
     await applicationRepository.save(application);
-
+    console.log(
+      `Job application email sent from ${email} to ${job.recruiter.email}`
+    );
     res.status(201).json(application);
   } catch (err: any) {
     console.error(err);
@@ -78,7 +80,15 @@ router.post("/answer/:applicationId", authMiddleware, async (req, res) => {
   application.status = status;
 
   await applicationRepository.save(application);
-
+  if (status === "shortlisted") {
+    console.log(
+      `Candidate shortlisted notification email sent from ${application.job.recruiter.email} to ${application.email}`
+    );
+  } else {
+    console.log(
+      `Candidate declined notification email sent from ${application.job.recruiter.email} to ${application.email}`
+    );
+  }
   res.status(200).json(application);
 });
 
@@ -95,7 +105,6 @@ router.get("/:applicationId/resume", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "Resume not found" });
     }
 
-    // Set headers to indicate it's a PDF and return the binary data
     res.setHeader("Content-Type", "application/pdf");
     res.send(application.resume);
   } catch (err) {

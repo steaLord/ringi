@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import express from "express";
 import { AppDataSource } from "./lib/data-source";
 import userRoutes from "./routes/users";
@@ -12,23 +13,19 @@ const port = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Only allow this origin (React app)
+    origin: "http://localhost:3000",
   })
 );
 
-// Middleware to parse JSON
 app.use(express.json());
 
-// Initialize TypeORM Data Source
 AppDataSource.initialize()
   .then(() => {
     console.log("Connected to database");
-    // Route handling
     app.use("/api/users", userRoutes);
     app.use("/api/jobs", jobRoutes);
     app.use("/api/applications", applicationRoutes);
 
-    // Start the server
     app.listen(port, () => {
       console.log(`Server running on http://localhost:${port}`);
     });

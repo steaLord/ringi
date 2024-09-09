@@ -40,7 +40,7 @@ const ApplyJob: React.FC = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Application submitted");
+      navigate("/jobs");
     } catch (error) {
       console.error("Error applying for job:", error);
     }

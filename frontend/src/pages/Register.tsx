@@ -28,10 +28,8 @@ const Register: React.FC = () => {
         role,
       });
 
-      // Call login to set token and handle authentication state
       login(response.data.token);
 
-      // Redirect to the jobs page
       navigate("/jobs");
     } catch (error: any) {
       console.error("Error registering user:", error);
